@@ -23,8 +23,8 @@ namespace classdotnet.Controllers
         }
 
         [HttpGet("GetOne/{id}")]
-        public ActionResult<Character> GetSingle(int id){
-            return Ok(characters.FirstOrDefault(c => c.Id == id));
+        public ActionResult<Character> GetSingle(int id23){
+            return Ok(characters.FirstOrDefault(c => c.Id == id23));
         }
     }
 }
