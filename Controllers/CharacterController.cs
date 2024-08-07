@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using classdotnet.Models;
+using classdotnet.Services.CharacterService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace classdotnet.Controllers
@@ -11,20 +12,27 @@ namespace classdotnet.Controllers
     [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
-        private static List<Character> characters = new List<Character>{
-            new Character(),
-            new Character{Id = 1, Name = "Murat"}            
+        private readonly ICharacterService _characterService;
 
-        };
-
-        [HttpGet("GetAll")] 
-        public ActionResult<List<Character>> GetAll(){
-            return Ok(characters);
+        public CharacterController(ICharacterService characterService)
+        {
+            _characterService = characterService;
+        }
+        [HttpGet("GetAll")]
+        public ActionResult<List<Character>> GetAll()
+        {
+            return Ok(_characterService.GetAllCharacters());
         }
 
         [HttpGet("GetOne/{id}")]
-        public ActionResult<Character> GetSingle(int id222){
-            return Ok(characters.FirstOrDefault(c => c.Id == id222));
+        public ActionResult<Character> GetSingle(int id)
+        {
+            return Ok(_characterService.GetCharacterById(id));
+        }
+        [HttpPost("CreateOne")]
+        public ActionResult<List<Character>> AddCharacter(Character newCharacter)
+        {
+            return Ok(_characterService.AddCharacter(newCharacter));
         }
     }
 }
