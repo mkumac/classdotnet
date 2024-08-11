@@ -19,7 +19,7 @@ namespace classdotnet.Controllers
         public CharacterController(ICharacterService characterService)
         {
             _characterService = characterService;
-            
+
         }
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
@@ -32,11 +32,33 @@ namespace classdotnet.Controllers
         {
             return Ok(await _characterService.GetCharacterById(id));
         }
-        
+
         [HttpPost("CreateOne")]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
         {
             return Ok(await _characterService.AddCharacter(newCharacter));
         }
+
+        [HttpPut("UpdateOne")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> UpdateCharacter(UpdateCharacterDto updateCharacter)
+        {
+            var response = await _characterService.UpdateCharacter(updateCharacter);
+            if (response.Data is null)
+            {
+                return NotFound (response);
+            }
+            else return Ok(response);
+        }
+
+        [HttpDelete("DeleteOne")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> DeleteCharacter(int id)
+        {
+            var response = await _characterService.DeleteCharacterById(id);
+            if (response.Data is null)
+            {
+                return NotFound (response);
+            }
+            else return Ok(response);
+        }        
     }
 }
