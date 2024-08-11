@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using classdotnet.Dtos.Character;
 using classdotnet.Models;
 using dotnet_rpg.Models;
 
@@ -14,7 +15,7 @@ namespace classdotnet.Services.CharacterService
             new Character{Id = 1, Name = "Murat"}
 
         };
-        public async Task<ServiceResponse<List<Character>>> AddCharacter(Character newCharacter)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             var serviceResponse = new ServiceResponse<List<Character>>();
             characters.Add(newCharacter);
@@ -23,14 +24,14 @@ namespace classdotnet.Services.CharacterService
             
         }
 
-        public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             var serviceResponse = new ServiceResponse<List<Character>>();
             serviceResponse.Data = characters;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Character>> GetCharacterById(int id)
+        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
             var serviceResponse = new ServiceResponse<Character>();
             serviceResponse.Data = characters.FirstOrDefault(c => c.Id == id)!;
