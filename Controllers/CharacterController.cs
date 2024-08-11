@@ -19,6 +19,7 @@ namespace classdotnet.Controllers
         public CharacterController(ICharacterService characterService)
         {
             _characterService = characterService;
+            
         }
         [HttpGet("GetAll")]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> GetAll()
