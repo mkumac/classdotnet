@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using classdotnet.Dtos.Character;
 using classdotnet.Models;
 using classdotnet.Services.CharacterService;
-using dotnet_rpg.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace classdotnet.Controllers

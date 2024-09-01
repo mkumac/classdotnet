@@ -6,7 +6,6 @@ using AutoMapper;
 using classdotnet.Data;
 using classdotnet.Dtos.Character;
 using classdotnet.Models;
-using dotnet_rpg.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace classdotnet.Services.CharacterService
@@ -30,12 +29,14 @@ namespace classdotnet.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            Character newChar = _mapper.Map<Character>(newCharacter);
-            newChar.Id = characters.Max(c => c.Id) + 1;
-            characters.Add(newChar);
-            serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
-            return serviceResponse;
+            _context.Characters.Add(_mapper.Map<Character>(newCharacter));
+            await _context.SaveChangesAsync();
+            var dbCharacters = await _context.Characters.ToListAsync();
 
+            serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+            serviceResponse.Message = "Hello World";
+            serviceResponse.Success = true;
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
@@ -77,7 +78,7 @@ namespace classdotnet.Services.CharacterService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.Message; 
             }
             return serviceResponse;
         }
